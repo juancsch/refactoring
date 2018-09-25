@@ -1,0 +1,14 @@
+{
+  "name": "refactoring-cases",
+  "version": "0.0.1",
+  "description": "Refactorings guide by SOLID and Smells",
+  "scripts": {
+    "test": "jest",
+    "tdd": "jest -w",
+    "coverage": "jest -coverage"
+  },
+  "devDependencies": {
+    "jest": "23.4.2",
+    "standard": "11.0.1"
+  }
+}
