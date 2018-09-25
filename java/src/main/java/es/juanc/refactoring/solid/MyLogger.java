@@ -10,31 +10,45 @@ public class MyLogger {
 	public static final int WARNING = 1;
 	public static final int CRITICAL = 2;
 
-	private Writer log;
-	private Mailer mail;
-	private Sms sms;
-
-	public void log (int type, String message) {
+	public void log(int type, String message) {
 
 		switch (type) {
 			case LOG:
-				log = new Writer();
-				log.writeToFile(message);
+				logAlert(message);
 				break;
 			case WARNING:
-				log = new Writer();
-				log.writeToFile(message);
-				mail = new Mailer();
-				mail.sendToSysadmin(message);
+				warningAlert(message);
 				break;
 			case CRITICAL:
-				log = new Writer();
-				log.writeToFile(message);
-				mail = new Mailer();
-				mail.sendToSysadmin(message);
-				sms = new Sms();
-				sms.sendToSysadmin(message);
+				criticalAlert(message);
 				break;
 		}
+	}
+
+	private void criticalAlert(String message) {
+
+		Writer log = new Writer();
+		log.writeToFile(message);
+
+		Mailer mail = new Mailer();
+		mail.sendToSysadmin(message);
+
+		Sms sms = new Sms();
+		sms.sendToSysadmin(message);
+	}
+
+	private void warningAlert(String message) {
+
+		Writer log = new Writer();
+		log.writeToFile(message);
+
+		Mailer mail = new Mailer();
+		mail.sendToSysadmin(message);
+	}
+
+	private void logAlert(String message) {
+
+		Writer log = new Writer();
+		log.writeToFile(message);
 	}
 }
