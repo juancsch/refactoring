@@ -8,16 +8,20 @@ public class MyLogger {
 
 	public void log(int type, String message) {
 
+		Alert alert = null;
+
 		switch (type) {
 			case LOG:
-				new LogAlert().logAlert(message);
+				alert = new LogAlert();
 				break;
 			case WARNING:
-				new WarningAlert().warningAlert(message);
+				alert = new WarningAlert();
 				break;
 			case CRITICAL:
-				new CriticalAlert().criticalAlert(message);
+				alert = new CriticalAlert();
 				break;
 		}
+
+		alert.send(message);
 	}
 }

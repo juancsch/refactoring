@@ -4,9 +4,9 @@ import es.juanc.refactoring.solid.service.Mailer;
 import es.juanc.refactoring.solid.service.Sms;
 import es.juanc.refactoring.solid.service.Writer;
 
-public class CriticalAlert {
+public class CriticalAlert implements Alert {
 
-    public void criticalAlert(String message) {
+    private void criticalAlert(String message) {
 
         Writer log = new Writer();
         log.writeToFile(message);
@@ -16,5 +16,10 @@ public class CriticalAlert {
 
         Sms sms = new Sms();
         sms.sendToSysadmin(message);
+    }
+
+    @Override
+    public void send(String message) {
+        criticalAlert(message);
     }
 }
