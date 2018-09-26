@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import static es.juanc.refactoring.solid.MyLogger.AlertType.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MyLoggerSpec {
@@ -43,9 +44,10 @@ class MyLoggerSpec {
     void logging_message_type_log() {
 
         MyLogger logger = new MyLogger();
+        logger.registerAlert(LOG, new LogAlert());
 
         String message = "esto es una prueba";
-        logger.log(MyLogger.LOG, message);
+        logger.log(LOG, message);
 
         String expected = "write '"+message+"' to log\n";
         assertEquals(expected, consoleStream.toString());
@@ -55,9 +57,11 @@ class MyLoggerSpec {
     void logging_message_type_warning() {
 
         MyLogger logger = new MyLogger();
+        logger.registerAlert(LOG, new LogAlert());
+        logger.registerAlert(WARNING, new WarningAlert());
 
         String message = "esto es una prueba";
-        logger.log(MyLogger.WARNING, message);
+        logger.log(WARNING, message);
 
         String expected = "write '"+message+"' to log\n";
         expected += "send '"+message+"' by mail\n";
@@ -68,9 +72,12 @@ class MyLoggerSpec {
     void logging_message_type_critical() {
 
         MyLogger logger = new MyLogger();
+        logger.registerAlert(LOG, new LogAlert());
+        logger.registerAlert(WARNING, new WarningAlert());
+        logger.registerAlert(CRITICAL, new CriticalAlert());
 
         String message = "esto es una prueba";
-        logger.log(MyLogger.CRITICAL, message);
+        logger.log(CRITICAL, message);
 
         String expected = "write '"+message+"' to log\n";
         expected += "send '"+message+"' by mail\n";

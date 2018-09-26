@@ -1,27 +1,26 @@
 package es.juanc.refactoring.solid;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 public class MyLogger {
 
-	public static final int LOG = 0;
-	public static final int WARNING = 1;
-	public static final int CRITICAL = 2;
+	public enum AlertType {
+        LOG, WARNING, CRITICAL
+    }
 
-	public void log(int type, String message) {
+	private Map<AlertType, Alert> alerts = new EnumMap<>(AlertType.class);
 
-		Alert alert = null;
+	public void log(AlertType type, String message) {
 
-		switch (type) {
-			case LOG:
-				alert = new LogAlert();
-				break;
-			case WARNING:
-				alert = new WarningAlert();
-				break;
-			case CRITICAL:
-				alert = new CriticalAlert();
-				break;
-		}
+		alertBy(type).send(message);
+	}
 
-		alert.send(message);
+	public void registerAlert(AlertType type, Alert alert) {
+		alerts.put(type, alert);
+	}
+
+	private Alert alertBy(AlertType type) {
+		return alerts.get(type);
 	}
 }
